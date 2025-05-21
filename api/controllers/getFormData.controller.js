@@ -190,7 +190,7 @@ export const getFormData = async (req, res, next) => {
 
         res.json({
             success: true,
-            totalEntries: id ? 1 : Object.keys(groupedData).length,
+            totalEntries: id && Object.keys(groupedData).length,
             data: id ? groupedData : groupedData
         });
     } catch (error) {
