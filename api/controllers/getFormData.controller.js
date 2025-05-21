@@ -1,23 +1,30 @@
-import { db } from "../db/dbconnect.js"
+import { pool } from "../../index.js"
 
 export const getFormData = async (req, res, next) => {
     const { id } = req.query
-    console.log(id);
+    
     try {
-        const [rows] = await db.execute("SELECT * FROM wp_frmt_form_entry_meta");
-        console.log(rows);
-        let result = [];
-
-        if (!id) {
-            result = rows;
-        } else {
-            result = rows.filter((item) => item.entry_id === Number(id));       
+        // Validate id if provided
+        if (id && isNaN(Number(id))) {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'Invalid ID format' 
+            });
         }
-        console.log(result);
 
-        res.json(result);
+        // Use parameterized query for better security
+        const query = id 
+            ? "SELECT * FROM wp_frmt_form_entry_meta WHERE entry_id = ?"
+            : "SELECT * FROM wp_frmt_form_entry_meta";
+        
+        const [rows] = await pool.execute(query, id ? [Number(id)] : []);
+        
+        res.json({
+            success: true,
+            data: rows
+        });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({ error: error.message });
+        console.error('Database error:', error);
+        next(error); // Pass to error handling middleware
     }
 } 
