@@ -1,5 +1,5 @@
 import express from 'express';
 import { getFormData } from '../controllers/getFormData.controller.js';
-export const route = express();
+export const formRoute = express();
 
-route.get('/data', getFormData);
+formRoute.get('/formdata', getFormData);

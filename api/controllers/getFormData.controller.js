@@ -5,10 +5,16 @@ export const getFormData = async (req, res, next) => {
     try {
         const [rows] = await db.execute("SELECT * FROM wp_frmt_form_entry_meta");
 
-        const result = rows.filter((item) => item.entry_id === Number(id));
+        let result = [];
+
+        if (!id) {
+            result = rows;
+        } else {
+            result = rows.filter((item) => item.entry_id === Number(id));       
+        }
 
         res.json(result);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
-}
+} 

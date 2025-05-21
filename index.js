@@ -1,14 +1,19 @@
 import express from 'express';
 import cors from 'cors';
 import { dbconnect } from './api/db/dbconnect.js';
-import { getFormData } from './api/controllers/getFormData.controller.js';
+import { formRoute } from './api/routes/getFormData.route.js';
 
 const app = express();
 
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use(getFormData)
+app.use("/api", formRoute)
+
+
+app.get('/', (req, res) => {
+  res.send('Hello World!')
+})
 
 
 // Start server
