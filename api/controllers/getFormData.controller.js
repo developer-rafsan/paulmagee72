@@ -14,10 +14,11 @@ export const getFormData = async (req, res, next) => {
 
         // Use parameterized query for better security
         const query = id
-            ? "SELECT * FROM wp_frmt_form_entry_meta WHERE entry_id = ?"
+            ? `SELECT wp_frmt_form_entry.entry_id, wp_frmt_form_entry_meta.entry_id, wp_frmt_form_entry_meta.* FROM wp_frmt_form_entry, wp_frmt_form_entry_meta WHERE wp_frmt_form_entry.entry_id = ${id} AND wp_frmt_form_entry_meta.entry_id = ${id}`
             : "SELECT * FROM wp_frmt_form_entry_meta";
 
         const [rows] = await pool.execute(query, id ? [Number(id)] : []);
+
 
         // Define form fields based on entry type
         const formFields = rows.length > 12
