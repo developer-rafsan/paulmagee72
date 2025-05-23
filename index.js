@@ -11,10 +11,10 @@ const app = express();
 
 // Create connection pool instead of single connection
 export const pool = mysql.createPool({
-  host: '104.250.128.234',
-  user: 'softvenceomega_wp004449',
-  password: 'P6WlphlR54cn',
-  database: 'softvenceomega_wp004449',
+  host: '194.59.164.23',
+  user: 'u445844004_S6j6k',
+  password: '8Sf1zj9uCb',
+  database: 'u445844004_pjvRz',
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
